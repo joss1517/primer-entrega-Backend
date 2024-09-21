@@ -148,5 +148,15 @@
     "img": "sin imagen",
     "code": "gym1215",
     "stock": 35
+  },
+  {
+    "id": 16,
+    "title": "utensilios",
+    "description": "Vinilo Adhesivo Sticker Cocina Calcomanía Decorativa",
+    "size": "115x60 cms.",
+    "price": 230,
+    "img": "sin imagen",
+    "code": "coc1943",
+    "stock": 8
   }
 ]
