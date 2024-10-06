@@ -130,16 +130,6 @@
     "stock": 30
   },
   {
-    "id": 14,
-    "title": "Fit body",
-    "description": "Vinilo Adhesivo Sticker Gym Calcomanía Decorativa",
-    "size": "150x90 cms.",
-    "price": 440,
-    "img": "sin imagen",
-    "code": "gym4207",
-    "stock": 20
-  },
-  {
     "id": 15,
     "title": "No pain no gain",
     "description": "Vinilo Adhesivo Sticker Gym Calcomanía Decorativa",
@@ -158,5 +148,15 @@
     "img": "sin imagen",
     "code": "coc1943",
     "stock": 8
+  },
+  {
+    "id": 17,
+    "title": "ikhg",
+    "description": "hb",
+    "size": "765x6543",
+    "price": "765",
+    "img": "y645",
+    "code": "qe3ed",
+    "stock": "8"
   }
 ]

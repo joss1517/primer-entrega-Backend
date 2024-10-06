@@ -45,6 +45,8 @@ router.post("/", async (req, res) => {
 
   try {
     await manager.addProduct(nuevoProducto);
+    const productosActualizados = await manager.getProducts();
+    io.emit('products', productosActualizados)
     res.status(201).send("Producto agregado exitosamente");
   } catch (error) {
     res.status(500).send("Error del servidor")
@@ -70,6 +72,8 @@ router.delete("/:pid", async (req, res) => {
 
   try {
     await manager.deleteProduct(id);
+    const productosActualizados = await manager.getProducts();
+    io.emit('products', productosActualizados);
     res.send("Producto eliminado exitosamente");
   } catch (error) {
     res.status(500).send("Error del servidor");
