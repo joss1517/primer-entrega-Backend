@@ -18,9 +18,9 @@
 </form>
 
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/main.js"></script> <!-- Asegúrate de que main.js se carga aquí -->
-<script>
-  // socket ya está definido en main.js
+<script src="/js/main.js"></script> 
+
+
   // Escuchar cuando llegan productos desde el servidor
   socket.on('products', (products) => {
     const contenedor = document.getElementById('contenedorProductos');
@@ -28,7 +28,7 @@
 
     products.forEach(producto => {
       const div = document.createElement('div');
-      div.className = 'card'; // Aplica la clase 'card'
+      div.className = 'card'; 
       div.innerHTML = `
     <h3>${producto.title}</h3>
     <p>${producto.description}</p>
