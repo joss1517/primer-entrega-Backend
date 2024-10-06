@@ -18,49 +18,45 @@
 </form>
 
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/main.js"></script> 
+<script src="/js/main.js"></script>
 
+<script>
+// Escuchar cuando llegan productos desde el servidor
+socket.on('products', (products) => {
+const contenedor = document.getElementById('contenedorProductos');
+contenedor.innerHTML = ''; // Limpiar el contenedor
 
-  // Escuchar cuando llegan productos desde el servidor
-  socket.on('products', (products) => {
-    const contenedor = document.getElementById('contenedorProductos');
-    contenedor.innerHTML = ''; // Limpiar el contenedor
+products.forEach(producto => {
+const div = document.createElement('div');
+div.className = 'card';
+div.innerHTML = `
+<h3>${producto.title}</h3>
+<p>${producto.description}</p>
+<p>Precio: ${producto.price}</p>
+<p>Tamaño: ${producto.size}</p>
+<button onclick="eliminarProducto(${producto.id})">Eliminar</button>
+`;
+contenedor.appendChild(div);
+});
+});
 
-    products.forEach(producto => {
-      const div = document.createElement('div');
-      div.className = 'card'; 
-      div.innerHTML = `
-    <h3>${producto.title}</h3>
-    <p>${producto.description}</p>
-    <p>Precio: ${producto.price}</p>
-    <p>Tamaño: ${producto.size}</p>
-    <button onclick="eliminarProducto(${producto.id})">Eliminar</button>
-  `;
-      contenedor.appendChild(div);
-    });
-  });
+// Agregar producto
+document.getElementById('formularioProducto').addEventListener('submit', (event) => {
+event.preventDefault();
+const producto = {
+title: document.getElementById('title').value,
+description: document.getElementById('description').value,
+size: document.getElementById('size').value,
+price: document.getElementById('price').value,
+img: document.getElementById('img').value || "sin imagen",
+code: document.getElementById('code').value,
+stock: document.getElementById('stock').value
+};
+socket.emit('nuevoProducto', producto);
+});
 
-  // Agregar producto
-  document.getElementById('formularioProducto').addEventListener('submit', (event) => {
-    event.preventDefault();
-    const producto = {
-      title: document.getElementById('title').value,
-      description: document.getElementById('description').value,
-      size: document.getElementById('size').value,
-      price: document.getElementById('price').value,
-      img: document.getElementById('img').value || "sin imagen",
-      code: document.getElementById('code').value,
-      stock: document.getElementById('stock').value
-    };
-    socket.emit('nuevoProducto', producto);
-  });
-
-  // Eliminar producto
-  function eliminarProducto(id) {
-    socket.emit('eliminarProducto', id);
-  }
+// Eliminar producto
+function eliminarProducto(id) {
+socket.emit('eliminarProducto', id);
+}
 </script>
-
-
-
-
