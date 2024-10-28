@@ -1,45 +1,35 @@
-const express = require("express");
-const CartManager = require("../managers/cart-manager.js");
-const cartManager = new CartManager("./src/data/carts.json");
+// src/routes/carts.router.js
+const express = require('express');
+const Cart = require('../models/cart.model.js');
 const router = express.Router();
 
-
-router.post("/", async (req, res) => {
+router.get('/carts/:cid', async (req, res) => {
   try {
-    const nuevoCarrito = await cartManager.crearCarrito();
-    res.send(nuevoCarrito);
+    const cart = await Cart.findById(req.params.cid).populate('products.product');
+    res.render('cart', { cart });
   } catch (error) {
-    res.status(500).send("Error interno del servidor");
+    res.status(404).json({ status: 'error', message: 'Carrito no encontrado' });
   }
-})
+});
 
-
-router.get("/:cid", async (req, res) => {
-  let carritoId = parseInt(req.params.cid);
-
+router.put('/carts/:cid', async (req, res) => {
   try {
-    const carritoBuscado = await cartManager.getCarritoById(carritoId);
-
-    res.json(carritoBuscado.products);
+    const cart = await Cart.findByIdAndUpdate(req.params.cid, { products: req.body.products }, { new: true });
+    res.json(cart);
   } catch (error) {
-    res.status(500).send("Error interno del servidor");
+    res.status(500).json({ status: 'error', message: error.message });
   }
-})
+});
 
-
-
-router.post("/:cid/product/:pid", async (req, res) => {
-  const carritoId = parseInt(req.params.cid);
-  const productId = parseInt(req.params.pid);
-  const quantity = req.body.quantity || 1;
-
+router.delete('/carts/:cid/products/:pid', async (req, res) => {
   try {
-    const carritoActualizado = await cartManager.agregarProductoAlCarrito(carritoId, productId, quantity);
-    res.json(carritoActualizado.products);
+    const cart = await Cart.findById(req.params.cid);
+    cart.products = cart.products.filter(p => p.product.toString() !== req.params.pid);
+    await cart.save();
+    res.json(cart);
   } catch (error) {
-    res.status(500).send("Error interno del servidor");
+    res.status(500).json({ status: 'error', message: error.message });
   }
-})
+});
 
-
-module.exports = router; 
+module.exports = router;
